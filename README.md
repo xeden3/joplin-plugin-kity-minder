@@ -11,4 +11,4 @@
 
 ## Example
 
-![kity-minder in action](./doc/demo.gif)
+![kity-minder in action](https://github.com/xeden3/joplin-plugin-kity-minder/blob/main/doc/demo.gif?raw=true)
