@@ -51,10 +51,18 @@ async function writeJsonFile(name: string, data: string, filePath: string = null
     return filePath
 }
 
+
+async function readJsonFile(name: string): Promise<string> {
+    let filePath = `${Config.TempFolder}${name}.json`
+    let data = await fs.readFile(filePath)
+    return data
+}
+
 export async function getDiagramResource(diagramId: string): Promise<{ body: string, options: IDiagramOptions, data_json:string }> {
-    const resourceProperties = await joplin.data.get(['resources', diagramId])
-    const resourceData = await joplin.data.get(['resources', diagramId, 'file'])
-    const resourceData_json = await joplin.data.get(['notes', diagramId], { fields: ['id', 'title', 'body'] })
+    let resourceProperties = await joplin.data.get(['resources', diagramId])
+    let resourceData = await joplin.data.get(['resources', diagramId, 'file'])
+    let resourceData_json = await readJsonFile(diagramId)
+    // let resourceData_json = await joplin.data.get(['notes', diagramId], { fields: ['id', 'title', 'body'] })
     
     console.log('getDiagramResource', resourceProperties, resourceData)
 
@@ -71,33 +79,31 @@ export async function getDiagramResource(diagramId: string): Promise<{ body: str
     }
 
     console.log('getDiagramResource diagramId', diagramId);
-    console.log('getDiagramResource json', resourceData_json.body);
+    console.log('getDiagramResource json', resourceData_json);
     return {
         body: `data:${resourceData.contentType};base64,${Buffer.from(resourceData.body).toString('base64')}`,
         options: options,
-        data_json: resourceData_json.body
+        data_json: resourceData_json
     }
 }
 
 export async function createDiagramResource(data: string, options: IDiagramOptions, data_json:string): Promise<string> {
-    const diagramId = generateId()
-    // const diagramId_json = generateId()
-    const filePath = await writeTempFile(diagramId, data)
-    // const filePath_json = await writeJsonFile(diagramId, data_json)
-    const createdResource = await joplin.data.post(['resources'], null, { id: diagramId, title: buildTitle(options) }, [{ path: filePath }])
-    const createdResource_json = await joplin.data.post(['notes'], null, { id: diagramId, body: data_json })
-    // console.log('createdResource', createdResource)
-    // console.log('createdResource', createdResource_json)
+    let diagramId = generateId()
+    let filePath = await writeTempFile(diagramId, data)
+    let filePath_json = await writeJsonFile(diagramId, data_json)
+    let createdResource = await joplin.data.post(['resources'], null, { id: diagramId, title: buildTitle(options) }, [{ path: filePath }])
+    // let createdResource_json = await joplin.data.post(['notes'], null, { id: diagramId, body: data_json })
     console.log('createResource diagramId', diagramId);
     console.log('createResource json', data_json);
     return diagramId
 }
 
 export async function updateDiagramResource(diagramId: string, data: string, options: IDiagramOptions, data_json:string ): Promise<string> {
-    const newDiagramId = generateId()
-    const filePath = await writeTempFile(newDiagramId, data)
-    const createdResource = await joplin.data.post(['resources'], null, { id: newDiagramId, title: buildTitle(options) }, [{ path: filePath }])
-    const createdResource_json = await joplin.data.post(['notes'], null, { id: newDiagramId, body: data_json })
+    let newDiagramId = generateId()
+    let filePath = await writeTempFile(newDiagramId, data)
+    let filePath_json = await writeJsonFile(newDiagramId, data_json)
+    let createdResource = await joplin.data.post(['resources'], null, { id: newDiagramId, title: buildTitle(options) }, [{ path: filePath }])
+    // let createdResource_json = await joplin.data.post(['notes'], null, { id: newDiagramId, body: data_json })
     // I will not delete the previous resource just in case it has been copied in another note
     // await joplin.data.delete(['resources', diagramId])
     // console.log('createdResource', createdResource)
@@ -105,6 +111,6 @@ export async function updateDiagramResource(diagramId: string, data: string, opt
 }
 
 export async function isDiagramResource(diagramId: string): Promise<boolean> {
-    const resourceProperties = await joplin.data.get(['resources', diagramId])
+    let resourceProperties = await joplin.data.get(['resources', diagramId])
     return resourceProperties.title.startsWith(Config.TitlePrefix)
 }
