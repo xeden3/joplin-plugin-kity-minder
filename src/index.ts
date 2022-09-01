@@ -79,7 +79,6 @@ joplin.plugins.register({
 				if(type==="addnew"){
 					let diagramId_new = await createDiagramResource(dialogResult.formData.main.mindmap_diagram_png, { sketch: false }, dialogResult.formData.main.mindmap_diagram_json)
 					await joplin.commands.execute('insertText', diagramMarkdown(diagramId_new))
-					console.info("叼你老母");
 					let diagramResource = await getDiagramResource(diagramId_new)
 					console.log(diagramResource.body);
 				}else{

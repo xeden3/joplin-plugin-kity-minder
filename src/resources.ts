@@ -5,9 +5,9 @@ import { sep } from 'path'
 const fs = joplin.require('fs-extra')
 
 const Config = {
-    TempFolder: `${tmpdir}${sep}joplin-drawio-plugin${sep}`,
+    TempFolder: `${tmpdir}${sep}joplin-mindmap-plugin${sep}`,
     DataImageRegex: /^data:image\/(?<extension>png|svg)(?:\+xml)?;base64,(?<blob>.*)/,
-    TitlePrefix: 'drawio-',
+    TitlePrefix: 'mindmap-',
 }
 
 export interface IDiagramOptions {
