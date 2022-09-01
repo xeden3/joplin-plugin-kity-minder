@@ -5,3 +5,6 @@
 被迫无奈，只能自己开发一个插件给自己使用
 
 项目开源，希望大家也能很好的用上
+
+在此感谢FEX团队和Kity Minder的开源项目
+https://github.com/fex-team/kityminder-editor.git
