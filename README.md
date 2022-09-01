@@ -7,4 +7,9 @@
 项目开源，希望大家也能很好的用上
 
 在此感谢FEX团队和Kity Minder的开源项目
-https://github.com/fex-team/kityminder-editor.git
+
+[kity-minder]https://github.com/fex-team/kityminder-editor.git
+
+以及wythe0102提供的本地化Kity Minder项目
+
+[local-kity-minder](https://github.com/wythe0102/local-kity-minder)
