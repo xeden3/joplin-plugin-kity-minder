@@ -1,0 +1,29 @@
+.mindmap-container {
+    position: relative;
+    display: inline-block;
+    width: fit-content;
+}
+
+.mindmap-container img,
+.mindmap-container svg,
+.mindmap-container pre {
+    width: fit-content;
+    max-width: 100%;
+    height: auto;
+}
+
+.mindmap-container button {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    display: none;
+}
+
+.mindmap-container:hover button {
+    display: block;
+    opacity: 0.5;
+}
+
+.mindmap-container:hover button:hover {
+    opacity: 1;
+}

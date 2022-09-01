@@ -1,0 +1,5 @@
+{
+    "extraScripts": [
+        "contentScript/contentScript.ts"
+    ]
+}
