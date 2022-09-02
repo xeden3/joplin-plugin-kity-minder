@@ -48,7 +48,7 @@ joplin.plugins.register({
                 case 'edit':
 					let diagramResource = await getDiagramResource(request.diagramId);
 					let data_json = diagramResource.data_json;
-					await open_edit_dlg(data_json, request.diagramId, diagramResource.options, "edit");
+					await open_edit_dlg(data_json, request.diagramId, "edit");
                     return
                 case 'check':
                     return { isValid: await isDiagramResource(request.diagramId) }
@@ -57,7 +57,7 @@ joplin.plugins.register({
             }
         })
 
-		async function open_edit_dlg(data_json:string, diagramId:string, options:object, type:string="addnew"){
+		async function open_edit_dlg(data_json:string, diagramId:string, type:string="addnew"){
 			let dialogs = joplin.views.dialogs;
 			let handle_dlg = await dialogs.create(`myDialog2-${uuidv4()}`);
 
@@ -77,12 +77,12 @@ joplin.plugins.register({
 				console.log(dialogResult.formData.main.mindmap_diagram_json);
 				console.log(dialogResult.formData.main.mindmap_diagram_png);
 				if(type==="addnew"){
-					let diagramId_new = await createDiagramResource(dialogResult.formData.main.mindmap_diagram_png, { sketch: false }, dialogResult.formData.main.mindmap_diagram_json)
+					let diagramId_new = await createDiagramResource(dialogResult.formData.main.mindmap_diagram_png, dialogResult.formData.main.mindmap_diagram_json)
 					await joplin.commands.execute('insertText', diagramMarkdown(diagramId_new))
 					let diagramResource = await getDiagramResource(diagramId_new)
 					console.log(diagramResource.body);
 				}else{
-					let newDiagramId = await updateDiagramResource(diagramId, dialogResult.formData.main.mindmap_diagram_png, options, dialogResult.formData.main.mindmap_diagram_json)
+					let newDiagramId = await updateDiagramResource(diagramId, dialogResult.formData.main.mindmap_diagram_png, dialogResult.formData.main.mindmap_diagram_json)
 					let note = await joplin.workspace.selectedNote();
 					if (note) {
 						let newBody = (note.body as string).replace(new RegExp(`!\\[mindmap\\]\\(:\\/${diagramId}\\)`, 'gi'), diagramMarkdown(newDiagramId))
@@ -99,7 +99,7 @@ joplin.plugins.register({
 			label: '新增思维导图',
 			iconName: 'fas fa-brain',
 			execute: async () => {
-				await open_edit_dlg('{"root":{"data":{"id":"cmhllt94xb40","created":1661683403686,"text":"主题"},"children":[]},"template":"default","theme":"fresh-blue","version":"1.4.33"}', null, null);
+				await open_edit_dlg('{"root":{"data":{"id":"cmhllt94xb40","created":1661683403686,"text":"主题"},"children":[]},"template":"default","theme":"fresh-blue","version":"1.4.33"}', null);
 			},
 		});
 		await joplin.views.toolbarButtons.create('addnewMindmap', 'addnewMindmap', ToolbarButtonLocation.NoteToolbar);
