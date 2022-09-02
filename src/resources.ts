@@ -51,26 +51,19 @@ async function writeJsonFile(name: string, data: string, filePath: string = null
     return filePath
 }
 
-
-async function readJsonFile(name: string): Promise<string> {
-    let filePath = `${Config.TempFolder}${name}.json`
-    let data = await fs.readFile(filePath)
-    return data
-}
-
 export async function getDiagramResource(diagramId: string): Promise<{ body: string, data_json:string }> {
     let resourceProperties = await joplin.data.get(['resources', diagramId])
     let resourceData = await joplin.data.get(['resources', diagramId, 'file'])
 
-    let json_resource_id: string = ""
+    let data_json: string = ""
     try {
-        json_resource_id = parseTitle(resourceProperties.title)
+        data_json = parseTitle(resourceProperties.title)
     } catch (e) {
         console.warn('getDiagramResource - json resource ID parsing failed:', e)
     }
 
-    let resourceData_json = await joplin.data.get(['resources', json_resource_id, 'file'])
-    let data_json = new TextDecoder().decode(resourceData_json.body);
+    // let resourceData_json = await joplin.data.get(['resources', json_resource_id, 'file'])
+    // let data_json = new TextDecoder().decode(resourceData_json.body);
     console.log('getDiagramResource', resourceProperties, resourceData)
     if (!resourceData.contentType.startsWith('image')) {
         throw new Error('Invalid resource content type. The resource must be an image')
@@ -85,12 +78,12 @@ export async function getDiagramResource(diagramId: string): Promise<{ body: str
 
 export async function createDiagramResource(data: string, data_json:string): Promise<string> {
     let diagramId = generateId()
-    let json_resource_id = generateId()
+    // let json_resource_id = generateId()
 
     let filePath = await writeTempFile(diagramId, data)
-    let filePath_json = await writeJsonFile(json_resource_id, data_json)
-    let createdResource = await joplin.data.post(['resources'], null, { id: diagramId, title: buildTitle(json_resource_id) }, [{ path: filePath }])
-    let createdResource_json = await joplin.data.post(['resources'], null, { id: json_resource_id, title: "mindmap-data-json"}, [{path: filePath_json}])
+    // let filePath_json = await writeJsonFile(json_resource_id, data_json)
+    let createdResource = await joplin.data.post(['resources'], null, { id: diagramId, title: buildTitle(data_json) }, [{ path: filePath }])
+    // let createdResource_json = await joplin.data.post(['resources'], null, { id: json_resource_id, title: "mindmap-data-json"}, [{path: filePath_json}])
 
     console.log('createResource diagramId', diagramId);
     console.log('createResource json', data_json);
@@ -99,12 +92,12 @@ export async function createDiagramResource(data: string, data_json:string): Pro
 
 export async function updateDiagramResource(diagramId: string, data: string, data_json:string ): Promise<string> {
     let newDiagramId = generateId()
-    let new_json_resource_id = generateId()
+    // let new_json_resource_id = generateId()
 
     let filePath = await writeTempFile(newDiagramId, data)
-    let filePath_json = await writeJsonFile(new_json_resource_id, data_json)
-    let createdResource = await joplin.data.post(['resources'], null, { id: newDiagramId, title: buildTitle(new_json_resource_id) }, [{ path: filePath }])
-    let createdResource_json = await joplin.data.post(['resources'], null, { id: new_json_resource_id, title: "mindmap-data-json"}, [{path: filePath_json}])
+    // let filePath_json = await writeJsonFile(new_json_resource_id, data_json)
+    let createdResource = await joplin.data.post(['resources'], null, { id: newDiagramId, title: buildTitle(data_json) }, [{ path: filePath }])
+    // let createdResource_json = await joplin.data.post(['resources'], null, { id: new_json_resource_id, title: "mindmap-data-json"}, [{path: filePath_json}])
     // let createdResource_json = await joplin.data.post(['notes'], null, { id: newDiagramId, body: data_json })
     // I will not delete the previous resource just in case it has been copied in another note
     // await joplin.data.delete(['resources', diagramId])
