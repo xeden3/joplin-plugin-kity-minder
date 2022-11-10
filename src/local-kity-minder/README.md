@@ -1,12 +1,62 @@
-# local-kity-minder
-百度脑图 kityminder 放到本地，增加导入、导出km和导出png格式的功能，基本可以满足本地的编辑->导出保存->导入继续编辑->导出为png分享的使用步骤
+# joplin-plugin-kity-minder  Kity Minder Mindmap Tools 思维导图插件
 
-百度脑图非常好用，但目前有些场景下，想把东西保存到本地，而不是放到网上或者断网的情况下，也想使用的场景
+Mind map (brain map) plugin based on Joplin
+I have used mind mapping solutions including PlantUML, but I still feel that the mind map cannot be presented well. Based on my being a loyal user of Leanote, I found that Kity Minder's mind mapping tool is not used under Joplin.
+Forced to be helpless, I can only develop a plug-in for myself to use
 
-基于https://github.com/LancelotLewis/local-kitymind项目做了一些更改，原有的项目的导出功能不太好用，且没有导出为png的功能
+The project is open source, I hope you will like it
+
+Thanks to the FEX team and Kity Minder's open source project [kity-minder](https://github.com/fex-team/kityminder-editor.git)
+
+And the localized Kity Minder project provided by wythe0102 [local-kity-minder](https://github.com/wythe0102/local-kity-minder)
+
+## Example
+
+![kity-minder in action](https://github.com/xeden3/joplin-plugin-kity-minder/blob/main/doc/demo.gif?raw=true)
+
+## Install the plugin  
+Can be installed using files or automatic install by Joplin plugins search
 
 
-部署步骤:
-下载项目，放入tomcat或者任意自己熟悉的容器重，启动即可
+### Manual installation  
 
-![image](https://github.com/wythe0102/local-kity-minder/blob/master/doc/%E4%B8%BB%E7%95%8C%E9%9D%A2.png)
+Download the last release from this repository. https://github.com/xeden3/joplin-plugin-kity-minder/releases
+Open Joplin > Options > Plugins > Install from File
+Select the jpl file you downloaded.
+
+### Automatic installation  
+
+Use the Joplin plugin manager to install it (Joplin > Options > Plugins). Search for mindmap.
+
+
+----
+
+# 中文说明
+
+基于Joplin的思维导图（脑图）插件
+作者使用了包括 PlantUML 在内的思维导图解决方案，还是觉得无法很好的呈现思维导图，基于作者是Leanote的忠实用户，发现Joplin下没用Kity Minder的思维导图工具
+被迫无奈，只能自己开发一个插件给自己使用
+
+项目开源，希望大家也能很好的用上
+
+在此感谢FEX团队和Kity Minder的开源项目[kity-minder](https://github.com/fex-team/kityminder-editor.git)
+以及wythe0102提供的本地化Kity Minder项目[local-kity-minder](https://github.com/wythe0102/local-kity-minder)
+
+## 安装
+
+可以使用文件安装或者通过Joplin内置搜索安装
+
+## 从文件安装
+
+1 先通过 https://github.com/xeden3/joplin-plugin-kity-minder/releases 下载最新版本的 com.sctmes.kity-minder.jpl 和 com.sctmes.kity-minder.json 文件，并放入同一个文件夹
+2 打开Joplin的 "工具\选项\插件" 菜单，点击 "管理你的插件"，选择 "从文件安装"，选择对应的 com.sctmes.kity-minder.jpl 即可
+
+## 通过搜索安装
+
+1 打开Joplin的 "工具\选项\插件" 菜单，在搜索框上填入mind关键字
+2 选择 kity-minder 进行安装
+该安装方法需要等待npm同步插件信息，某些网络区域可能无法搜索出结果
+
+
+
+

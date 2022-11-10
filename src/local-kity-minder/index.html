@@ -24,7 +24,7 @@
 			overflow: hidden;
 		}
 		h1.editor-title {
-			background: #393F4F;
+			background: #e0e0e0;
 			color: white;
 			margin: 0;
 			height: 40px;
@@ -44,13 +44,15 @@
 	</style>
 </head>
 <body ng-app="kityminderDemo" ng-controller="MainController">
-<!--
+
 <h1 class="editor-title">
+	<!--
 	<a href="https://github.com/fex-team/kityminder-editor" style="color: #fff;" target="_blank">
 		KityMinder Editor - Powered By FEX
 	</a>
+	-->
 </h1>
--->
+
 <kityminder-editor on-init="initEditor(editor, minder)" data-theme="fresh-green" style="top: 0px;"></kityminder-editor>
 <iframe name="frameFile" style="display:none;"></iframe>
 </body>
@@ -76,8 +78,8 @@
 <script src="./bower_components/kityminder-core/dist/kityminder.core.js"></script>
 <script src="./bower_components/color-picker/dist/color-picker.min.js"></script>
 <!-- endbower -->
-
-<script src="kityminder.editor.js"></script>
+<script src="language.js"></script>
+<script src="kityminder.editor.min.js"></script>
 <script src="diy.js"></script>
 
 <script>

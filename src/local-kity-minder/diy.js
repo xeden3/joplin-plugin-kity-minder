@@ -1,12 +1,13 @@
 
 (function(){
-	/*
+	
 	var html = '';
+	/*
 	html += '<a class="diy export" data-type="json">导出json</a>',
 	html += '<a class="diy export" data-type="md">导出md</a>',
 	html += '<a class="diy export" data-type="svg">导出svg</a>',
-	html += '<a class="diy export" data-type="km">导出km</a>',
-	html += '<a class="diy export" data-type="png">导出png</a>',
+	html += '<a class="diy export" data-type="png">导出png</a>',*/
+	html += '<a class="diy export" name="btn_export_km" data-type="km">导出km</a>',
 	html += '<button class="diy input">',
 	html += '导入<input type="file" id="fileInput">',
 	html += '</button>';
@@ -39,7 +40,7 @@
 		display: 'inline-block',
 		opacity: 0
 	});
-	*/
+	
 	$('.export').css('cursor','not-allowed');
 
 	/*
@@ -97,21 +98,80 @@
 		}
 	});
 	*/
-	
-	// 导入
-	window.onload = function() {	
-		//在iframe子页面中查找父页面元素
-		let parent = window.parent.document.getElementById('mindmap_diagram_json');
-		
-		// alert(parent.value);
+	function get_datatime_by_yyyyMMddhhmmss_without_split() {
+		let d = new Date();
+		return d.getFullYear().toString() + (d.getMonth() + 1).toString() + d.getDate().toString() + d.getHours().toString() + d.getMinutes().toString() + d.getSeconds().toString();
+	}
 
-		editor.minder.importData('json', parent.value).then(function(data){
+    function save_file(filename, content) {
+        let element = document.createElement('a');
+		filename = filename + '.km';
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
+        element.setAttribute('download', filename);
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    }
+
+	// 导入
+	window.onload = function() {
+		// 导出事件
+		$("[name='btn_export_km']").on("click", function(){
+			let c = window.parent.document.getElementById('mindmap_diagram_json').value;
+			save_file(get_datatime_by_yyyyMMddhhmmss_without_split(), c);
+		});
+
+		// 初始化时候，先import父框架的json数据
+		// 在iframe子页面中查找父页面元素
+		let parent = window.parent.document.getElementById('mindmap_diagram_json');
+		// alert(parent.value);
+		let maintopic = _lang_pack[_lang_default]['maintopic'];
+		let data_json = '{"root":{"data":{"id":"cmhllt94xb40","created":1661683403686,"text":"' + maintopic + '"},"children":[]},"template":"default","theme":"fresh-blue","version":"1.4.33"}';
+		if(parent.value != ""){
+			data_json = parent.value;
+		}
+
+		editor.minder.importData('json', data_json).then(function(data){
 			console.log(data)
 			// $(fileInput).val('');
 		});
+		// == 初始化结束 == 
 
 		$('.export').css('cursor','default');
+		var fileInput = document.getElementById('fileInput');
 
+		// 导入部分的逻辑，支持导入md km json文件
+		fileInput.addEventListener('change', function(e) {
+			var file = fileInput.files[0],
+					// textType = /(md|km)/,
+					fileType = file.name.substr(file.name.lastIndexOf('.')+1);
+			console.log(file);
+			switch(fileType){
+				case 'md':
+					fileType = 'markdown';
+					break;
+				case 'km':
+				case 'json':
+					fileType = 'json';
+					break;
+				default:
+					console.log("File not supported!");
+					alert('只支持.km、.md、.json文件');
+					return;
+			}
+			var reader = new FileReader();
+			reader.onload = function(e) {
+				var content = reader.result;
+				editor.minder.importData(fileType, content).then(function(data){
+					console.log(data)
+					$(fileInput).val('');
+				});
+			}
+			reader.readAsText(file);
+		});
+
+		// 定时将最新数据转导到父框架上的input
 		setInterval(function(){
 			editor.minder.exportData('json').then(function(content){
 				window.parent.document.getElementById('mindmap_diagram_json').value = content;
@@ -120,7 +180,23 @@
 				window.parent.document.getElementById('mindmap_diagram_png').value = content;
 			});
 		}, 500);
+
+		// 加入鼠标滚动放大缩小脚本
+		$(".minder-editor").on('mousewheel DOMMouseScroll', function(event) {
+			if(event.ctrlKey == true)
+			{
+				event.preventDefault();
+				if(event.originalEvent.wheelDelta > 0) {
+					 console.log('Down');
+					 editor.minder.execCommand('zoomIn');
+				 }else {
+					 console.log('Up');
+					 editor.minder.execCommand('zoomOut');
+				 }
+			}
+		});
 		
 	}
+
 
 })();

@@ -144,7 +144,7 @@ div.minder-editor-container {
 }
 .km-btn-item {
   display: inline-block;
-  margin: 0 3px;
+  margin: 0 1px;
   font-size: 0;
   cursor: default;
 }
@@ -198,7 +198,7 @@ div.minder-editor-container {
   background-position: 0 -40px;
 }
 .arrange-group {
-  width: 64px;
+  width: 80px;
 }
 .arrange-up .km-btn-icon {
   background-position: 0 -280px;
@@ -207,7 +207,7 @@ div.minder-editor-container {
   background-position: 0 -300px;
 }
 .operation-group {
-  width: 64px;
+  width: 80px;
 }
 .edit-node .km-btn-icon {
   background-position: 0 -60px;
@@ -881,11 +881,11 @@ div.minder-editor-container {
   vertical-align: middle;
 }
 .theme-list {
-  min-width: 162px;
+  min-width: 182px;
 }
 div a.theme-item {
   display: inline-block;
-  width: 70px;
+  width: 80px;
   height: 30px;
   text-align: center;
   line-height: 30px;
@@ -911,8 +911,8 @@ div a.theme-item {
 }
 .theme-item-wrap {
   display: inline-block;
-  width: 80px;
-  height: 40px;
+  width: 90px;
+  height: 40px; 
   padding: 5px;
 }
 .theme-item-wrap:hover {
@@ -1241,7 +1241,7 @@ div a.theme-item {
 }
 .btn-group-vertical .expand,
 .btn-group-vertical .expand-caption {
-  width: 40px;
+  width: 60px;
   margin: 0;
   padding: 0;
   border: none!important;
@@ -1277,7 +1277,7 @@ div a.theme-item {
 }
 .btn-group-vertical .select,
 .btn-group-vertical .select-caption {
-  width: 40px;
+  width: 60px;
   margin: 0;
   padding: 0;
   border: none!important;

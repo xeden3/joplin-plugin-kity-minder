@@ -1,6 +1,6 @@
 import joplin from 'api';
 import { v4 as uuidv4 } from 'uuid';
-import { ContentScriptType, MenuItem, MenuItemLocation } from 'api/types'
+import { ContentScriptType, SettingItemType, MenuItem, MenuItemLocation } from 'api/types'
 import { clearDiskCache, isDiagramResource } from './resources'
 import { createDiagramResource, getDiagramResource, updateDiagramResource } from './resources';
 import { ToolbarButtonLocation } from 'api/types';
@@ -9,17 +9,22 @@ const Config = {
     ContentScriptId: 'mindmap-content-script',
 }
 
+const CommandsId = {
+    NewMindmap: 'NewMindmap',
+}
+
 // 插入markdown语句
 function diagramMarkdown(diagramId: string) {
     return `![mindmap](:/${diagramId})`
 }
 
 // 创建dlg内嵌form
-function buildDialogHTML(diagramBody: string): string {
+function buildDialogHTML(diagramBody: string, language: string): string {
 	return `
 		<form name="main">
 			<input type="" id="mindmap_diagram_json" name="mindmap_diagram_json" value='${diagramBody}'>
 			<input type="" id="mindmap_diagram_png" name="mindmap_diagram_png" value=''>
+			<input type="" id="mindmap_diagram_language" name="mindmap_diagram_language" value='${language}'>
 		</form>
 		`
 }
@@ -59,9 +64,10 @@ joplin.plugins.register({
 
 		async function open_edit_dlg(data_json:string, diagramId:string, type:string="addnew"){
 			let dialogs = joplin.views.dialogs;
+			let language = await joplin.settings.value('language') as string;
 			let handle_dlg = await dialogs.create(`myDialog2-${uuidv4()}`);
 
-			let header = buildDialogHTML(data_json);
+			let header = buildDialogHTML(data_json, language);
 			console.log("header", header);
 			let iframe = `<iframe id="mindmap_iframe" style="position:absolute;border:0;width:100%;height:100%;" src="${app_path}\\local-kity-minder\\index.html" title="description"></iframe>`
 			await dialogs.setHtml(handle_dlg, header + iframe);
@@ -93,13 +99,48 @@ joplin.plugins.register({
 			}
 		}
 
+		await joplin.settings.registerSection('settings.kityminder', {
+			label: 'Kity Minder',
+			iconName: 'fas fa-brain'
+		});
+
+		await joplin.settings.registerSettings({
+			'language': {
+				value: 'en',
+				isEnum: true,
+				options: {
+					'en': 'English',
+					'zh-cn': '简体中文',
+				},
+				type: SettingItemType.String,
+				section: 'settings.kityminder',
+				public: true,
+				label: 'Language',
+				description: `You can choose the language you need, including English, Chinese, etc.`
+			},
+		});
+
+        // Register command
+        await joplin.commands.register({
+            name: CommandsId.NewMindmap,
+            label: 'Create new mindmap',
+            iconName: 'fas fa-brain',
+            execute: async () => {
+                await open_edit_dlg("", null);
+            },
+        });
+
+        // Register menu
+        const commandsSubMenu: MenuItem[] = Object.values(CommandsId).map(command => ({ commandName: command }));
+        await joplin.views.menus.create('menu-kityminder', 'Kity Minder', commandsSubMenu, MenuItemLocation.Tools);
+		
 		// 通过按键来新增思维导图
 		await joplin.commands.register({
 			name: 'addnewMindmap',
-			label: '新增思维导图',
+			label: 'Create new mindmap',
 			iconName: 'fas fa-brain',
 			execute: async () => {
-				await open_edit_dlg('{"root":{"data":{"id":"cmhllt94xb40","created":1661683403686,"text":"主题"},"children":[]},"template":"default","theme":"fresh-blue","version":"1.4.33"}', null);
+				await open_edit_dlg("", null);
 			},
 		});
 		await joplin.views.toolbarButtons.create('addnewMindmap', 'addnewMindmap', ToolbarButtonLocation.NoteToolbar);
