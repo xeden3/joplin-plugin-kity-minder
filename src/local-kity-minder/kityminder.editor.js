@@ -2863,7 +2863,7 @@
                     commandBinder.bind(minder, 'appendchildnode', $scope)
 
                     $scope.execCommand = function (command) {
-                        minder.execCommand(command, '分支主题');
+                        minder.execCommand(command, _lang_pack[_lang_default]['topic']);
                         editText();
                     };
 

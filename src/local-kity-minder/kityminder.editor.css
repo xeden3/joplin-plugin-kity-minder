@@ -881,11 +881,11 @@ div.minder-editor-container {
   vertical-align: middle;
 }
 .theme-list {
-  min-width: 182px;
+  min-width: 200px;
 }
 div a.theme-item {
   display: inline-block;
-  width: 80px;
+  width: 90px;
   height: 30px;
   text-align: center;
   line-height: 30px;
@@ -896,7 +896,7 @@ div a.theme-item {
   color: #000;
 }
 .theme-item-selected {
-  width: 100px;
+  width: 110px;
   padding: 6px 7px;
   border: 1px solid #fff;
 }
@@ -911,7 +911,7 @@ div a.theme-item {
 }
 .theme-item-wrap {
   display: inline-block;
-  width: 90px;
+  width: 98px;
   height: 40px; 
   padding: 5px;
 }

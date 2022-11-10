@@ -1,7 +1,9 @@
 # joplin-plugin-kity-minder  Kity Minder Mindmap Tools 思维导图插件
 
 Mind map (brain map) plugin based on Joplin
-I have used mind mapping solutions including PlantUML, but I still feel that the mind map cannot be presented well. Based on my being a loyal user of Leanote, I found that Kity Minder's mind mapping tool is not used under Joplin.
+
+I have used mind mapping solutions including PlantUML on Joplin, but I still feel that the mind map cannot be presented well. Based on my being a loyal user of Leanote, I found that Kity Minder's mind mapping tool is not used under Joplin.
+
 Forced to be helpless, I can only develop a plug-in for myself to use
 
 The project is open source, I hope you will like it
