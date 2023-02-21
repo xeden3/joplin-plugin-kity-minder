@@ -1,12 +1,16 @@
 import joplin from 'api';
 import { v4 as uuidv4 } from 'uuid';
 import { ContentScriptType, SettingItemType, MenuItem, MenuItemLocation } from 'api/types'
-import { clearDiskCache, isDiagramResource } from './resources'
+import { isDiagramResource } from './resources'
 import { createDiagramResource, getDiagramResource, updateDiagramResource } from './resources';
 import { ToolbarButtonLocation } from 'api/types';
+import { tmpdir } from 'os'
+import { sep } from 'path'
+const fs = joplin.require('fs-extra')
 
 const Config = {
     ContentScriptId: 'mindmap-content-script',
+	DiagramsCacheFolder: `${tmpdir}${sep}joplin-minder-plugin${sep}`,
 }
 
 const CommandsId = {
@@ -27,6 +31,10 @@ function buildDialogHTML(diagramBody: string, language: string): string {
 			<input type="" id="mindmap_diagram_language" name="mindmap_diagram_language" value='${language}'>
 		</form>
 		`
+}
+
+function clearDiskCache(): void {
+    fs.emptyDirSync(Config.DiagramsCacheFolder)
 }
 
 joplin.plugins.register({
@@ -99,11 +107,7 @@ joplin.plugins.register({
 			}
 		}
 
-		await joplin.settings.registerSection('settings.kityminder', {
-			label: 'Kity Minder',
-			iconName: 'fas fa-brain'
-		});
-
+		
 		await joplin.settings.registerSettings({
 			'language': {
 				value: 'en',
@@ -119,6 +123,15 @@ joplin.plugins.register({
 				description: `You can choose the language you need, including English, Chinese, etc.`
 			},
 		});
+		
+
+		
+		await joplin.settings.registerSection('settings.kityminder', {
+			label: 'Kity Minder',
+			iconName: 'fas fa-brain'
+		});
+		
+
 
         // Register command
         await joplin.commands.register({
