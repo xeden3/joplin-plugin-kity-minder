@@ -10,7 +10,7 @@ const fs = joplin.require('fs-extra')
 
 const Config = {
     ContentScriptId: 'mindmap-content-script',
-	DiagramsCacheFolder: `${tmpdir}${sep}joplin-minder-plugin${sep}`,
+	DiagramsCacheFolder: `${tmpdir}${sep}joplin-mindmap-plugin${sep}`,
 }
 
 const CommandsId = {
