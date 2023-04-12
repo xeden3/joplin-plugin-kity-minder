@@ -61,6 +61,7 @@ joplin.plugins.register({
                 case 'edit':
 					let diagramResource = await getDiagramResource(request.diagramId);
 					let data_json = diagramResource.data_json;
+			                data_json = data_json.replace(/\'/g, "\\u0027");
 					await open_edit_dlg(data_json, request.diagramId, "edit");
                     return
                 case 'check':
