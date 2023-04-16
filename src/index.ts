@@ -116,12 +116,16 @@ joplin.plugins.register({
 				options: {
 					'en': 'English',
 					'zh-cn': '简体中文',
+					'jp': '日本',
+					'ko': '한국인',
+					'pl': 'Polski',
+					'de': 'Deutsch',
 				},
 				type: SettingItemType.String,
 				section: 'settings.kityminder',
 				public: true,
 				label: 'Language',
-				description: `You can choose the language you need, including English, Chinese, etc.`
+				description: `You can choose the language you need, including English, Chinese, Japanese etc.`
 			},
 		});
 		
